@@ -3,3 +3,6 @@ Install dependecies
   
 Run project    
 `npm run dev`
+  
+Open  
+`http://localhost:3000`
