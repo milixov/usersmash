@@ -1,1 +1,2 @@
-# usersmash
+npm i  
+npm run dev
