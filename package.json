@@ -1,0 +1,46 @@
+{
+  "name": "usersmash",
+  "version": "1.0.0",
+  "description": "Just another challange",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build && node ./scripts/default-lang.js",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "keywords": [],
+  "author": "Milad Moafi",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^3.9.0",
+    "@material-ui/icons": "^3.0.2",
+    "@mdi/js": "^3.3.92",
+    "@mdi/react": "^1.1.0",
+    "accepts": "^1.3.5",
+    "axios": "^0.18.0",
+    "babel-plugin-react-intl": "^3.0.1",
+    "email-validator": "^2.0.4",
+    "glob": "^7.1.3",
+    "hoist-non-react-statics": "^3.3.0",
+    "intl": "^1.2.5",
+    "jss": "^9.8.7",
+    "jss-rtl": "^0.2.3",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
+    "mobx-state-tree": "^3.10.1",
+    "next": "^7.0.2",
+    "notistack": "^0.4.1",
+    "password-validator": "^4.1.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-google-login": "^5.0.0",
+    "react-intl": "^2.8.0",
+    "react-jss": "^8.6.1",
+    "window-or-global": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0"
+  }
+}

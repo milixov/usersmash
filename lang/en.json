@@ -1,0 +1,16 @@
+{
+  "config.dir": "rtl",
+  "app.version": "نسخه ۱.۰.۰",
+  "app.emailExample": "username@domain.com",
+  "app.passwordHint": "حداقل ۸ کاراکتر",
+  "app.appTitle": "کاربرباز",
+  "app.login": "ورود",
+  "app.signUp": "ثبت نام",
+  "app.password": "گذرواژه",
+  "app.email": "رایانامه",
+  "app.close": "بستن",
+  "app.profile": "نمایه",
+  "app.signOut": "خروج",
+  "app.loginMessage": "مشخصات درخواستی را وارد کنید",
+  "app.loginTitle": "ورود به سامانه"
+}
