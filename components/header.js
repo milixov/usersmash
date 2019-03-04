@@ -13,21 +13,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
-const styles = theme => ({
-  appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  }
-});
-
 class Header extends React.Component {
   render() {
     const { classes } = this.props;
 
     return (
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes}>
         <Toolbar>
           <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <FormattedMessage id="app.appTitle" />
@@ -45,4 +36,4 @@ class Header extends React.Component {
   }
 }
 
-export default withIntl(withStyles(styles)(Header));
+export default withIntl(Header);

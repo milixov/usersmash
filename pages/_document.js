@@ -3,39 +3,6 @@ import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
 export default class MyDocument extends Document {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const {
-      req: { locale, localeDataScript }
-    } = context;
-
-    let dir = context.req.messages["config.dir"];
-
-    let pageContext;
-
-    let css;
-    if (pageContext) {
-      css = pageContext.sheetsRegistry.toString();
-    }
-
-    return {
-      ...props,
-      pageContext,
-      dir,
-      locale,
-      localeDataScript,
-      styles: (
-        <React.Fragment>
-          <style
-            id="jss-server-side"
-            dangerouslySetInnerHTML={{ __html: css }}
-          />
-          {flush() || null}
-        </React.Fragment>
-      )
-    };
-  }
-
   render() {
     const { pageContext, localeDataScript, locale } = this.props;
     const polyfill = `https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.${locale}`;
@@ -64,6 +31,7 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body dir="rtl">
+          <NextScript />
           <Main />
           <script src={polyfill} />
           <script
@@ -71,9 +39,41 @@ export default class MyDocument extends Document {
               __html: localeDataScript
             }}
           />
-          <NextScript />
         </body>
       </html>
     );
+  }
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const {
+      req: { locale, localeDataScript }
+    } = context;
+
+    let dir = context.req.messages["config.dir"];
+
+    let pageContext;
+
+    let css;
+    if (pageContext) {
+      css = pageContext.sheetsRegistry.toString();
+    }
+
+    return {
+      ...props,
+      dir,
+      locale,
+      localeDataScript,
+      pageContext,
+      styles: (
+        <React.Fragment>
+          <style
+            id="jss-server-side"
+            dangerouslySetInnerHTML={{ __html: css }}
+          />
+          {flush() || null}
+        </React.Fragment>
+      )
+    };
   }
 }

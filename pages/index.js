@@ -36,17 +36,12 @@ const styles = theme => ({
 });
 
 class Index extends React.Component {
-  state = {
-    value: 0
-  };
-
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
   render() {
     const { classes, pageContext } = this.props;
-    const { value } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>

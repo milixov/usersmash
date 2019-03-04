@@ -61,7 +61,7 @@ class Login extends React.Component {
 
     return (
       <div style={{ padding: 24 }}>
-        <Typography variant="headline">
+        <Typography variant="h4">
           <FormattedMessage id="app.loginTitle" />
         </Typography>
         <Typography>

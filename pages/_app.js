@@ -1,11 +1,12 @@
 import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import App, { Container } from "next/app";
 import Head from "next/head";
 import { MuiThemeProvider, jssPreset } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import JssProvider from "react-jss/lib/JssProvider";
 import { create } from "jss";
 import rtl from "jss-rtl";
+import Grid from "@material-ui/core/Grid";
 import { IntlProvider, addLocaleData } from "react-intl";
 import { Provider } from "mobx-react";
 import { getSnapshot } from "mobx-state-tree";
@@ -17,6 +18,8 @@ import {
   createGenerateClassName
 } from "@material-ui/core/styles";
 import { teal, amber } from "@material-ui/core/colors";
+import { Typography } from "@material-ui/core";
+import ReactLoading from "react-loading";
 
 if (typeof window !== "undefined" && window.ReactIntlLocaleData) {
   Object.keys(window.ReactIntlLocaleData).forEach(lang => {
@@ -53,6 +56,9 @@ class MyApp extends App {
 
   constructor(props) {
     super(props);
+    this.state = {
+      load: false
+    };
     this.store = initializeStore(props.isServer, props.initialState);
     const mDir = props.dir;
 
@@ -89,11 +95,19 @@ class MyApp extends App {
     this.pageContext = mContext;
   }
 
+  componentWillMount() {
+    this.setState({ load: false });
+  }
+
   componentDidMount() {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
+
+    setTimeout(() => {
+      this.setState({ load: true });
+    }, 1000);
   }
 
   render() {
@@ -105,28 +119,60 @@ class MyApp extends App {
             <Head>
               <title>کاربرباز</title>
             </Head>
-            <MuiThemeProvider
-              theme={this.pageContext.theme}
-              sheetsManager={this.pageContext.sheetsManager}
+
+            <JssProvider
+              jss={jss}
+              registry={this.pageContext.sheetsRegistry}
+              generateClassName={this.pageContext.generateClassName}
             >
-              <CssBaseline />
-              <JssProvider
-                jss={jss}
-                registry={this.pageContext.sheetsRegistry}
-                generateClassName={this.pageContext.generateClassName}
+              <SnackbarProvider
+                maxSnack={3}
+                autoHideDuration={6000}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left"
+                }}
               >
-                <SnackbarProvider
-                  maxSnack={3}
-                  autoHideDuration={6000}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left"
-                  }}
+                <MuiThemeProvider
+                  theme={this.pageContext.theme}
+                  sheetsManager={this.pageContext.sheetsManager}
                 >
-                  <Component pageContext={this.pageContext} {...pageProps} />
-                </SnackbarProvider>
-              </JssProvider>
-            </MuiThemeProvider>
+                  <CssBaseline />
+                  {this.state.load ? (
+                    <Component pageContext={this.pageContext} {...pageProps} />
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        height: "100vh",
+                        width: "100%",
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <ReactLoading
+                        type="bubbles"
+                        color={amber[700]}
+                        delay={0}
+                        height={64}
+                        width={64}
+                      />
+                      {/* <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" /> */}
+                      {/* <Grid
+                        style={{ height: "100vh" }}
+                        container
+                        direction="row"
+                        alignItems="center"
+                        justify="center"
+                      >
+                        <Typography>Loading...</Typography>
+                      </Grid> */}
+                    </div>
+                  )}
+                </MuiThemeProvider>
+              </SnackbarProvider>
+            </JssProvider>
           </Container>
         </IntlProvider>
       </Provider>

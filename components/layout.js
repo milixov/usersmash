@@ -19,20 +19,16 @@ class Layout extends React.Component {
     const { classes, pageContext, children } = this.props;
     const { drawer } = this.state;
     return (
-      <div className={classes.root}>
+      <div>
         <CssBaseline />
         <Header
-          classes={classes}
+          classes={classes.appBar}
           pageContext={pageContext}
           drawerOpen={this.handleDrawerOpen}
           drawerClose={this.handleDrawerClose}
           drawer={drawer}
         />
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: drawer
-          })}
-        >
+        <main className={classes.content}>
           <div className={classes.drawerHeader} />
           {children}
         </main>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node server.js",
-    "build": "next build && node ./scripts/default-lang.js",
+    "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
@@ -37,6 +37,8 @@
     "react-google-login": "^5.0.0",
     "react-intl": "^2.8.0",
     "react-jss": "^8.6.1",
+    "react-loading": "^2.0.3",
+    "react-spinkit": "^3.0.0",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
