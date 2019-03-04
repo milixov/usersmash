@@ -1,4 +1,4 @@
-Install dependecies
+Install dependecies  
 `npm i`  
   
 Run project    
