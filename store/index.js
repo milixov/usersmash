@@ -1,11 +1,13 @@
 import { types, applySnapshot } from "mobx-state-tree";
 import { LocaleStore } from "./locale.store";
+import { AuthStore } from "./auth.store";
 
 let store = null;
 export const Store = types
   .model("Store", {
     name: "App",
-    localeStore: types.optional(LocaleStore, {})
+    localeStore: types.optional(LocaleStore, {}),
+    authStore: types.optional(AuthStore, {})
   })
   .views(self => ({
     // get isLoading() {

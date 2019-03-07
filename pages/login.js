@@ -10,11 +10,19 @@ import { FormattedMessage } from "react-intl";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 
-import EmailValidator from "email-validator";
-import PasswordValidator from "password-validator";
 import { Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
+import { observer, inject } from "mobx-react";
+
+@inject("store")
+@observer
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.store = this.props.store.authStore;
+  }
+
   state = {
     email: "",
     password: "",
@@ -37,27 +45,17 @@ class Login extends React.Component {
     this.setState({ [name]: event.target.checked });
   };
 
+  login(email, password) {
+    this.store.login(email, password);
+  }
+
+  componentDidMount = () => {
+    this.store.reset();
+  };
+
   render() {
     const { intl } = this.props;
-
-    var schema = new PasswordValidator();
-    schema
-      .is()
-      .min(8)
-      .has()
-      .not()
-      .spaces();
-
-    var schemaStrength = new PasswordValidator();
-    schemaStrength
-      .is()
-      .min(8)
-      .has()
-      .uppercase()
-      .has()
-      .lowercase()
-      .has()
-      .digits();
+    const { getAuth, getLoading, getFailed, getMessage } = this.store;
 
     return (
       <div style={{ padding: 24 }}>
@@ -72,11 +70,6 @@ class Login extends React.Component {
           label={<FormattedMessage id="app.email" />}
           placeholder={intl.formatMessage({ id: "app.emailExample" })}
           fullWidth
-          error={
-            this.state.email.length > 0
-              ? !EmailValidator.validate(this.state.email)
-              : false
-          }
           type="email"
           value={this.state.email}
           onChange={this.handleChange("email")}
@@ -91,11 +84,6 @@ class Login extends React.Component {
           style={{ textAlign: "left" }}
           type={this.state.showPassword ? "text" : "password"}
           autoComplete="current-password"
-          error={
-            this.state.password.length > 0
-              ? schema.validate(this.state.password, { list: true }).length > 0
-              : false
-          }
           value={this.state.password}
           onChange={this.handleChange("password")}
           fullWidth
@@ -121,8 +109,18 @@ class Login extends React.Component {
           justify="flex-end"
           style={{ paddingTop: 32 }}
         >
-          <Button size="large" variant="contained" color="primary">
-            <FormattedMessage id="app.login" />
+          <Button
+            onClick={() => this.login(this.state.email, this.state.password)}
+            size="large"
+            variant="contained"
+            disabled={getLoading}
+            color="primary"
+          >
+            {getLoading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <FormattedMessage id="app.login" />
+            )}
           </Button>
         </Grid>
       </div>
