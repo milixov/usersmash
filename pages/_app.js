@@ -6,7 +6,6 @@ import { MuiThemeProvider, jssPreset } from "@material-ui/core/styles";
 import JssProvider from "react-jss/lib/JssProvider";
 import { create } from "jss";
 import rtl from "jss-rtl";
-import Grid from "@material-ui/core/Grid";
 import { IntlProvider, addLocaleData } from "react-intl";
 import { Provider } from "mobx-react";
 import { getSnapshot } from "mobx-state-tree";
@@ -18,7 +17,7 @@ import {
   createGenerateClassName
 } from "@material-ui/core/styles";
 import { teal, amber } from "@material-ui/core/colors";
-import { Typography } from "@material-ui/core";
+
 import ReactLoading from "react-loading";
 
 if (typeof window !== "undefined" && window.ReactIntlLocaleData) {
@@ -127,7 +126,8 @@ class MyApp extends App {
             >
               <SnackbarProvider
                 maxSnack={3}
-                autoHideDuration={6000}
+                preventDuplicate={true}
+                autoHideDuration={3000}
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left"
@@ -158,16 +158,6 @@ class MyApp extends App {
                         height={64}
                         width={64}
                       />
-                      {/* <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" /> */}
-                      {/* <Grid
-                        style={{ height: "100vh" }}
-                        container
-                        direction="row"
-                        alignItems="center"
-                        justify="center"
-                      >
-                        <Typography>Loading...</Typography>
-                      </Grid> */}
                     </div>
                   )}
                 </MuiThemeProvider>

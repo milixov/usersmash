@@ -13,7 +13,10 @@ import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import { withSnackbar } from "notistack";
+
 import { observer, inject } from "mobx-react";
+import axios from "axios";
 
 @inject("store")
 @observer
@@ -26,11 +29,8 @@ class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    showPassword: false
-  };
-
-  handleChangeText = name => event => {
-    this.setState({ [name]: event.target.value });
+    showPassword: false,
+    loading: false
   };
 
   handleChange = prop => event => {
@@ -41,21 +41,35 @@ class Login extends React.Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
-  handleCheckChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-
   login(email, password) {
-    this.store.login(email, password);
+    const { enqueueSnackbar } = this.props;
+    this.setState({ loading: true });
+    axios
+      .post("https://reqres.in/api/login", { email, password })
+      .then(resp => {
+        this.setAuth(resp.data.token);
+        this.setLoading(false);
+      })
+      .catch(error => {
+        if (error.response) {
+          enqueueSnackbar(error.response.data.error, { variant: "info" });
+        } else if (error.request) {
+          console.log(error.request);
+          enqueueSnackbar("خطای سرور", { variant: "warning" });
+        } else {
+          console.log(error);
+          enqueueSnackbar("خطای نامشخص", { variant: "error" });
+        }
+        this.setState({ loading: false });
+      });
   }
 
   componentDidMount = () => {
-    this.store.reset();
+    // this.store.reset();
   };
 
   render() {
     const { intl } = this.props;
-    const { getAuth, getLoading, getFailed, getMessage } = this.store;
 
     return (
       <div style={{ padding: 24 }}>
@@ -113,10 +127,10 @@ class Login extends React.Component {
             onClick={() => this.login(this.state.email, this.state.password)}
             size="large"
             variant="contained"
-            disabled={getLoading}
+            disabled={this.state.loading}
             color="primary"
           >
-            {getLoading ? (
+            {this.state.loading ? (
               <CircularProgress size={24} />
             ) : (
               <FormattedMessage id="app.login" />
@@ -128,4 +142,4 @@ class Login extends React.Component {
   }
 }
 
-export default withIntl(Login);
+export default withSnackbar(withIntl(Login));
