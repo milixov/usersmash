@@ -12,5 +12,7 @@
   "app.profile": "نمایه",
   "app.signOut": "خروج",
   "app.loginMessage": "مشخصات درخواستی را وارد کنید",
-  "app.loginTitle": "ورود به سامانه"
+  "app.loginTitle": "ورود به سامانه",
+  "msg.serverError": "خطا در برقراری اتصال",
+  "msg.unknownError": "خطای نامشخص"
 }

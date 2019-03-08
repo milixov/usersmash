@@ -44,15 +44,17 @@ class Login extends React.Component {
   };
 
   login(email, password) {
-    const { enqueueSnackbar, router } = this.props;
+    const { enqueueSnackbar, router, intl } = this.props;
 
     this.setState({ loading: true });
     axios
-      .post("https://reqres.in/api/login", { email, password })
+      .post(
+        "https://reqres.in/api/login",
+        { email, password },
+        { timeout: 5000 }
+      )
       .then(resp => {
-        // this.store.setAuth(resp.data.token);
         localStorage.setItem("token", resp.data.token);
-        this.setState({ loading: false });
         router.push("/home");
       })
       .catch(error => {
@@ -61,11 +63,17 @@ class Login extends React.Component {
           enqueueSnackbar(error.response.data.error, { variant: "info" });
         } else if (error.request) {
           console.log(error.request);
-          enqueueSnackbar("خطای سرور", { variant: "warning" });
+          enqueueSnackbar(intl.formatMessage({ id: "msg.serverError" }), {
+            variant: "warning"
+          });
         } else {
           console.log(error);
-          enqueueSnackbar("خطای نامشخص", { variant: "error" });
+          enqueueSnackbar(intl.formatMessage({ id: "msg.unknownError" }), {
+            variant: "error"
+          });
         }
+      })
+      .finally(f => {
         this.setState({ loading: false });
       });
   }
