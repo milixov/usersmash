@@ -18,6 +18,8 @@ import { withSnackbar } from "notistack";
 import { observer, inject } from "mobx-react";
 import axios from "axios";
 
+import { withRouter } from "next/router";
+
 @inject("store")
 @observer
 class Login extends React.Component {
@@ -42,13 +44,15 @@ class Login extends React.Component {
   };
 
   login(email, password) {
-    const { enqueueSnackbar } = this.props;
+    const { enqueueSnackbar, router } = this.props;
+
     this.setState({ loading: true });
     axios
       .post("https://reqres.in/api/login", { email, password })
       .then(resp => {
-        this.setAuth(resp.data.token);
-        this.setLoading(false);
+        this.store.setAuth(resp.data.token);
+        this.setState({ loading: false });
+        router.push("/home");
       })
       .catch(error => {
         if (error.response) {
@@ -142,4 +146,4 @@ class Login extends React.Component {
   }
 }
 
-export default withSnackbar(withIntl(Login));
+export default withRouter(withSnackbar(withIntl(Login)));

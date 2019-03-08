@@ -17,7 +17,7 @@ export const AuthStore = types
       cookie.set(string, { expires: 1 });
       self.auth = string;
     },
-    logout() {
+    clearAuth() {
       cookie.remove();
       self.auth = "";
     }
