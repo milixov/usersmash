@@ -50,11 +50,13 @@ class Login extends React.Component {
     axios
       .post("https://reqres.in/api/login", { email, password })
       .then(resp => {
-        this.store.setAuth(resp.data.token);
+        // this.store.setAuth(resp.data.token);
+        localStorage.setItem("token", resp.data.token);
         this.setState({ loading: false });
         router.push("/home");
       })
       .catch(error => {
+        localStorage.setItem("token", "");
         if (error.response) {
           enqueueSnackbar(error.response.data.error, { variant: "info" });
         } else if (error.request) {

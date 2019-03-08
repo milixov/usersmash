@@ -1,7 +1,4 @@
 import { types } from "mobx-state-tree";
-import Cookie from "mobx-cookie";
-
-const cookie = new Cookie("session");
 
 export const AuthStore = types
   .model("AuthStore", {
@@ -14,11 +11,11 @@ export const AuthStore = types
   }))
   .actions(self => ({
     setAuth(string) {
-      cookie.set(string, { expires: 1 });
-      self.auth = cookie.value;
+      localStorage.setItem("token", string);
+      self.auth = localStorage.getItem("token");
     },
     clearAuth() {
-      cookie.remove();
+      localStorage.setItem("token", "");
       self.auth = "";
     }
   }));

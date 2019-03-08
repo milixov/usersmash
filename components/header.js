@@ -10,25 +10,35 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
+import { withRouter } from "next/router";
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { auth } = this.props;
+    const { router } = this.props;
+    var token = localStorage.getItem("token");
+
     return (
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <FormattedMessage id="app.appTitle" />
           </Typography>
-          {auth && auth.length > 0 ? (
+          {token && token.length > 0 ? (
             <div>
               <IconButton color="inherit">
                 <AccountCircle />
               </IconButton>
-              <IconButton color="inherit">
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  localStorage.setItem("token", "");
+                  router.push("/");
+                }}
+              >
                 <ExitToApp />
               </IconButton>
             </div>
@@ -39,4 +49,4 @@ class Header extends React.Component {
   }
 }
 
-export default withIntl(Header);
+export default withRouter(withIntl(Header));

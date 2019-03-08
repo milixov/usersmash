@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import Layout from "../components/layout";
 
-import { observer, inject } from "mobx-react";
+import { withRouter } from "next/router";
 
 const styles = theme => ({
   root: {
@@ -32,42 +32,51 @@ const styles = theme => ({
   }
 });
 
-@inject("store")
-@observer
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.props.store.authStore;
+    this.state = {
+      auth: false
+    };
   }
+
+  componentWillMount = () => {
+    const { router } = this.props;
+    var token = localStorage.getItem("token");
+    if (!(token && token.length > 0)) {
+      this.setState({ auth: false });
+      router.push("/");
+    } else {
+      this.setState({ auth: true });
+    }
+  };
 
   render() {
     const { classes, pageContext } = this.props;
 
     return (
-      <Layout
-        classes={classes}
-        pageContext={pageContext}
-        auth={this.store.getAuth}
-      >
-        <div className={styles.root}>
-          <Typography variant="h4" gutterBottom>
-            Material-UI
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Home page
-          </Typography>
-          <Typography gutterBottom>
-            <Link href="/">
-              <a>Go to the main page</a>
-            </Link>
-          </Typography>
-          <Button variant="contained" color="primary">
-            Do nothing button
-          </Button>
-        </div>
+      <Layout classes={classes} pageContext={pageContext}>
+        {this.state.auth ? (
+          <div className={styles.root}>
+            <Typography variant="h4" gutterBottom>
+              Material-UI
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              Home page
+            </Typography>
+            <Typography gutterBottom>
+              <Link href="/">
+                <a>Go to the main page</a>
+              </Link>
+            </Typography>
+            <Button variant="contained" color="primary">
+              Do nothing button
+            </Button>
+          </div>
+        ) : null}
       </Layout>
     );
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(withRouter(Home));
