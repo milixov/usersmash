@@ -19,7 +19,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { router, intl } = this.props;
+    const { router, intl, basic } = this.props;
     var token = localStorage.getItem("token");
 
     return (
@@ -28,7 +28,7 @@ class Header extends React.Component {
           <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <FormattedMessage id="app.appTitle" />
           </Typography>
-          {token && token.length > 0 ? (
+          {!basic && token && token.length > 0 ? (
             <div>
               <Tooltip
                 title={intl.formatMessage({ id: "tlp.profile" })}

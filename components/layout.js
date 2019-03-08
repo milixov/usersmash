@@ -15,7 +15,7 @@ class Layout extends React.Component {
   };
 
   render() {
-    const { classes, pageContext, children } = this.props;
+    const { classes, pageContext, children, basic } = this.props;
     const { drawer } = this.state;
     return (
       <div>
@@ -25,6 +25,7 @@ class Layout extends React.Component {
           drawerOpen={this.handleDrawerOpen}
           drawerClose={this.handleDrawerClose}
           drawer={drawer}
+          basic={basic}
         />
         <main className={classes.content}>
           <div className={classes.drawerHeader} />
