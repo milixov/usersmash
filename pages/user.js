@@ -61,9 +61,9 @@ class User extends React.Component {
       var data = JSON.parse(localStorage.getItem("data"));
       var arr = data["data"];
       arr.push({
-        id: "id_" + firstName + Math.random(),
-        first_name: firstName,
-        last_name: lastName,
+        id: "id_" + firstName.trim() + Math.random(),
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
         avatar: "https://picsum.photos/100/100/?random"
       });
       data["data"] = arr;

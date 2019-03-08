@@ -69,6 +69,8 @@ class Profile extends React.Component {
     }
   };
 
+  handleSave = () => {};
+
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
   };
@@ -92,7 +94,7 @@ class Profile extends React.Component {
 
   render() {
     const { classes, pageContext, router } = this.props;
-    const { data, edit, loading } = this.state;
+    const { data, edit, loading, firstName, lastName } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>
@@ -133,8 +135,16 @@ class Profile extends React.Component {
                   <Button
                     size="large"
                     variant="contained"
+                    disabled={
+                      !(
+                        firstName.length > 1 &&
+                        firstName.trim() !== data.first_name &&
+                        lastName.length > 1 &&
+                        lastName.trim() !== data.last_name
+                      )
+                    }
                     color="primary"
-                    onClick={() => this.setState({ edit: true })}
+                    onClick={() => this.handleSave()}
                   >
                     ذخیره
                     <SaveIcon className={classes.saveIcon} />
