@@ -18,6 +18,12 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
 
 import Layout from "../components/layout";
 
@@ -49,6 +55,10 @@ const styles = theme => ({
   }
 });
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -56,12 +66,22 @@ class Home extends React.Component {
       auth: false,
       loading: false,
       data: [],
-      page: 0,
-      perPage: 0,
-      total: 0,
-      totalPages: 0
+      selectedItem: null,
+      deleteDialog: false
+      // page: 0,
+      // perPage: 0,
+      // total: 0,
+      // totalPages: 0
     };
   }
+
+  handleClickOpenDialog = item => {
+    this.setState({ selectedItem: item, deleteDialog: true });
+  };
+
+  handleCloseDialog = () => {
+    this.setState({ selectedItem: null, deleteDialog: false });
+  };
 
   componentWillMount = () => {
     const { router } = this.props;
@@ -85,7 +105,8 @@ class Home extends React.Component {
   };
 
   dataCollector = page => {
-    const url = "https://reqres.in/api/users?page=" + page;
+    // const url = "https://reqres.in/api/users?page=" + page;
+    const url = "https://reqres.in/api/users?page=1";
     this.setState({ loading: true });
 
     try {
@@ -117,72 +138,90 @@ class Home extends React.Component {
   };
 
   componentDidMount = () => {
-    this.dataCollector(this.state.page + 1);
+    // this.dataCollector(this.state.page + 1);
+    this.dataCollector();
   };
 
-  handleChangePage = (event, page) => {
-    this.setState({ page });
-    this.dataCollector(page + 1);
-  };
+  // handleChangePage = (event, page) => {
+  //   this.setState({ page });
+  //   this.dataCollector(page + 1);
+  // };
 
   render() {
     const { classes, pageContext, intl } = this.props;
-    const { data, total, perPage, totalPages, page } = this.state;
+    const { data, selectedItem } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>
         {this.state.auth ? (
           <div className={styles.root}>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ردیف</TableCell>
-                    <TableCell>تصویر</TableCell>
-                    <TableCell>نام</TableCell>
-                    <TableCell>نام خانوادگی</TableCell>
-                    <TableCell align="right">عملیات</TableCell>
-                  </TableRow>
-                </TableHead>
-                {this.state.loading ? (
-                  <Grid
-                    container
-                    justify="center"
-                    alignItems="center"
-                    style={{ paddingTop: 24, paddingBottom: 24 }}
-                  >
-                    <CircularProgress color="secondary" />
-                  </Grid>
-                ) : (
-                  <TableBody>
-                    {data.map(item => (
-                      <TableRow key={"row_" + item.id}>
-                        <TableCell component="th" scope="row">
-                          {item.id}
-                        </TableCell>
-                        <TableCell>
-                          <Avatar
-                            alt={"avatar_" + item.id}
-                            src={item["avatar"]}
-                          />
-                        </TableCell>
-                        <TableCell>{item["first_name"]}</TableCell>
-                        <TableCell>{item["last_name"]}</TableCell>
-                        <TableCell align="right">
-                          <Tooltip
-                            title={intl.formatMessage({ id: "tlp.delete" })}
-                            aria-label="profile"
-                          >
-                            <IconButton color="inherit">
-                              <DeleteIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                )}
-                <TableFooter>
+            <Grid direction="column">
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                style={{ marginBottom: 24 }}
+              >
+                <Typography variant="h5" style={{ flexGrow: 1 }}>
+                  کاربران
+                </Typography>
+                <Button size="large" variant="contained" color="primary">
+                  کاربر جدید
+                </Button>
+              </Grid>
+              <Paper>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ردیف</TableCell>
+                      <TableCell>تصویر</TableCell>
+                      <TableCell>نام</TableCell>
+                      <TableCell>نام خانوادگی</TableCell>
+                      <TableCell align="right">عملیات</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  {this.state.loading ? (
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      style={{ paddingTop: 24, paddingBottom: 24 }}
+                    >
+                      <CircularProgress color="secondary" />
+                    </Grid>
+                  ) : (
+                    <TableBody>
+                      {data.map(item => (
+                        <TableRow key={"row_" + item.id}>
+                          <TableCell component="th" scope="row">
+                            {item.id}
+                          </TableCell>
+                          <TableCell>
+                            <Avatar
+                              alt={"avatar_" + item.id}
+                              src={item["avatar"]}
+                            />
+                          </TableCell>
+                          <TableCell>{item["first_name"]}</TableCell>
+                          <TableCell>{item["last_name"]}</TableCell>
+                          <TableCell align="right">
+                            <Tooltip
+                              title={intl.formatMessage({ id: "tlp.delete" })}
+                              aria-label="profile"
+                            >
+                              <IconButton
+                                color="inherit"
+                                onClick={() => this.handleClickOpenDialog(item)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Tooltip>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  )}
+                  {/* <TableFooter>
                   <TableRow>
                     <TablePagination
                       labelDisplayedRows={() =>
@@ -196,9 +235,47 @@ class Home extends React.Component {
                       onChangeRowsPerPage={this.handleChangeRowsPerPage}
                     />
                   </TableRow>
-                </TableFooter>
-              </Table>
-            </Paper>
+                </TableFooter> */}
+                </Table>
+              </Paper>
+            </Grid>
+            <Dialog
+              open={this.state.deleteDialog}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-slide-title"
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogTitle id="alert-dialog-slide-title">
+                {"از حذف این سطر مطمئن هستید؟"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  <Typography>
+                    {selectedItem
+                      ? `کاربر ${selectedItem.first_name} ${
+                          selectedItem.last_name
+                        } با تایید این عملیات حذف خواهد شد`
+                      : null}
+                  </Typography>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => this.handleCloseDialog()}
+                  color="primary"
+                >
+                  انصراف
+                </Button>
+                <Button
+                  onClick={() => this.handleCloseDialog()}
+                  color="primary"
+                >
+                  تایید میکنم
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         ) : null}
       </Layout>
