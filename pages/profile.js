@@ -162,9 +162,9 @@ class Profile extends React.Component {
                     disabled={
                       !(
                         firstName.length > 1 &&
-                        firstName.trim() !== data.first_name &&
                         lastName.length > 1 &&
-                        lastName.trim() !== data.last_name
+                        (firstName.trim() !== data.first_name.trim() ||
+                          lastName.trim() !== data.last_name.trim())
                       )
                     }
                     color="primary"
