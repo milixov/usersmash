@@ -56,8 +56,8 @@ class User extends React.Component {
   handleSave = () => {
     const { enqueueSnackbar, router } = this.props;
     const { firstName, lastName } = this.state;
+    this.setState({ loading: true });
     try {
-      this.setState({ loading: true });
       var data = JSON.parse(localStorage.getItem("data"));
       var arr = data["data"];
       arr.push({

@@ -222,10 +222,7 @@ class Home extends React.Component {
                             {index + 1}
                           </TableCell>
                           <TableCell>
-                            <Avatar
-                              alt={"avatar_" + item.id}
-                              src={item["avatar"]}
-                            />
+                            <Avatar src={item["avatar"]} />
                           </TableCell>
                           <TableCell>{item["first_name"]}</TableCell>
                           <TableCell>{item["last_name"]}</TableCell>

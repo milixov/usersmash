@@ -69,7 +69,31 @@ class Profile extends React.Component {
     }
   };
 
-  handleSave = () => {};
+  handleSave = () => {
+    const { data, firstName, lastName } = this.state;
+    const { enqueueSnackbar } = this.props;
+    this.setState({ loading: true });
+    try {
+      const storage = JSON.parse(localStorage.getItem("data"));
+      const mData = storage["data"];
+      data["first_name"] = firstName;
+      data["last_name"] = lastName;
+      mData.map(item => {
+        if (item.id === data.id) {
+          item["first_name"] = data["first_name"];
+          item["last_name"] = data["last_name"];
+        }
+      });
+      storage["data"] = mData;
+      localStorage.setItem("data", JSON.stringify(storage));
+      this.setState({ data: data, edit: false });
+      this.setState({ loading: false });
+      enqueueSnackbar("ویرایش با موفقیت انجام شد", { variant: "success" });
+    } catch (e) {
+      enqueueSnackbar("عملیات با خطا مواجه شد", { variant: "warn" });
+      this.setState({ loading: false });
+    }
+  };
 
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -81,7 +105,7 @@ class Profile extends React.Component {
     try {
       const storage = JSON.parse(localStorage.getItem("data"));
       const data = storage["data"];
-      console.log("milix", router.query.id);
+      //   console.log("milix", router.query.id);
       this.setState({
         data: data.find(item => item.id.toString() === router.query.id)
       });
@@ -153,14 +177,13 @@ class Profile extends React.Component {
               )}
             </Grid>
             <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
-              <Paper container className={classes.paper}>
+              <Paper className={classes.paper}>
                 {loading ? (
                   <CircularProgress color="secondary" />
                 ) : (
                   <Grid container style={{ padding: 24 }} direction="column">
                     <Grid container direction="row" alignItems="center">
                       <Avatar
-                        alt="profile_pic"
                         src={data.avatar}
                         style={{ margin: 10, width: 100, height: 100 }}
                       />
