@@ -210,10 +210,15 @@ class Home extends React.Component {
                     </Grid>
                   ) : (
                     <TableBody>
-                      {data.map(item => (
-                        <TableRow key={"row_" + item.id}>
+                      {data.map((item, index) => (
+                        <TableRow
+                          key={"row_" + item.id}
+                          hover
+                          style={{ cursor: "pointer" }}
+                          onClick={() => console.log(item.id)}
+                        >
                           <TableCell component="th" scope="row">
-                            {item.id}
+                            {index + 1}
                           </TableCell>
                           <TableCell>
                             <Avatar
@@ -235,6 +240,17 @@ class Home extends React.Component {
                                 <DeleteIcon />
                               </IconButton>
                             </Tooltip>
+                            {/* <Tooltip
+                              title={"مشاهده پروفایل"}
+                              aria-label="profile"
+                            >
+                              <IconButton
+                                color="inherit"
+                                onClick={() => this.handleClickOpenDialog(item)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Tooltip> */}
                           </TableCell>
                         </TableRow>
                       ))}
