@@ -9,10 +9,10 @@
   "app.password": "گذرواژه",
   "app.email": "رایانامه",
   "app.close": "بستن",
-  "app.profile": "نمایه",
-  "app.signOut": "خروج",
   "app.loginMessage": "مشخصات درخواستی را وارد کنید",
   "app.loginTitle": "ورود به سامانه",
   "msg.serverError": "خطا در برقراری اتصال",
-  "msg.unknownError": "خطای نامشخص"
+  "msg.unknownError": "خطای نامشخص",
+  "tlp.profile": "نمایه",
+  "tlp.signOut": "خروج"
 }

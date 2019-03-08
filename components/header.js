@@ -9,6 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { withRouter } from "next/router";
 
@@ -18,7 +19,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { router } = this.props;
+    const { router, intl } = this.props;
     var token = localStorage.getItem("token");
 
     return (
@@ -29,18 +30,28 @@ class Header extends React.Component {
           </Typography>
           {token && token.length > 0 ? (
             <div>
-              <IconButton color="inherit">
-                <AccountCircle />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                onClick={() => {
-                  localStorage.setItem("token", "");
-                  router.push("/");
-                }}
+              <Tooltip
+                title={intl.formatMessage({ id: "tlp.profile" })}
+                aria-label="profile"
               >
-                <ExitToApp />
-              </IconButton>
+                <IconButton color="inherit">
+                  <AccountCircle />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                title={intl.formatMessage({ id: "tlp.signOut" })}
+                aria-label="signOut"
+              >
+                <IconButton
+                  color="inherit"
+                  onClick={() => {
+                    localStorage.setItem("token", "");
+                    router.push("/");
+                  }}
+                >
+                  <ExitToApp />
+                </IconButton>
+              </Tooltip>
             </div>
           ) : null}
         </Toolbar>
