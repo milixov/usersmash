@@ -25,10 +25,12 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
+import { withSnackbar } from "notistack";
 import Layout from "../components/layout";
 
 import { withRouter } from "next/router";
 import axios from "axios";
+import { throws } from "assert";
 
 const styles = theme => ({
   root: {
@@ -67,7 +69,8 @@ class Home extends React.Component {
       loading: false,
       data: [],
       selectedItem: null,
-      deleteDialog: false
+      deleteDialog: false,
+      deleteLoading: false
       // page: 0,
       // perPage: 0,
       // total: 0,
@@ -79,7 +82,23 @@ class Home extends React.Component {
     this.setState({ selectedItem: item, deleteDialog: true });
   };
 
-  handleCloseDialog = () => {
+  handleCloseDialog = boolean => {
+    const { enqueueSnackbar } = this.props;
+    if (boolean) {
+      try {
+        this.setState({ deleteLoading: true });
+        var selected = this.state.selectedItem;
+        var data = JSON.parse(localStorage.getItem("data"));
+        var deletedData = data["data"].filter(item => item.id != selected.id);
+        data["data"] = deletedData;
+        this.dataGatherListener(data);
+        localStorage.setItem("data", JSON.stringify(data));
+        this.setState({ deleteLoading: false });
+        enqueueSnackbar("حذف با موفقیت انجام شد", { variant: "success" });
+      } catch (e) {
+        enqueueSnackbar("عملیات با خطا مواجه شد", { variant: "warn" });
+      }
+    }
     this.setState({ selectedItem: null, deleteDialog: false });
   };
 
@@ -110,7 +129,7 @@ class Home extends React.Component {
     this.setState({ loading: true });
 
     try {
-      this.dataGatherListener(JSON.parse(localStorage.getItem(url)));
+      this.dataGatherListener(JSON.parse(localStorage.getItem("data")));
       this.setState({ loading: false });
     } catch (parseException) {
       axios
@@ -119,7 +138,7 @@ class Home extends React.Component {
           timeout: 5000
         })
         .then(resp => {
-          localStorage.setItem(url, JSON.stringify(resp.data));
+          localStorage.setItem("data", JSON.stringify(resp.data));
           this.dataGatherListener(resp["data"]);
         })
         .catch(error => {
@@ -263,16 +282,21 @@ class Home extends React.Component {
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={() => this.handleCloseDialog()}
+                  onClick={() => this.handleCloseDialog(false)}
                   color="primary"
                 >
                   انصراف
                 </Button>
                 <Button
-                  onClick={() => this.handleCloseDialog()}
+                  disabled={this.state.deleteLoading}
+                  onClick={() => this.handleCloseDialog(true)}
                   color="primary"
                 >
-                  تایید میکنم
+                  {this.state.deleteLoading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    <Typography>تایید میکنم</Typography>
+                  )}
                 </Button>
               </DialogActions>
             </Dialog>
@@ -282,4 +306,4 @@ class Home extends React.Component {
     );
   }
 }
-export default withStyles(styles)(withIntl(withRouter(Home)));
+export default withStyles(styles)(withSnackbar(withIntl(withRouter(Home))));
