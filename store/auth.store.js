@@ -15,7 +15,7 @@ export const AuthStore = types
   .actions(self => ({
     setAuth(string) {
       cookie.set(string, { expires: 1 });
-      self.auth = string;
+      self.auth = cookie.value;
     },
     clearAuth() {
       cookie.remove();

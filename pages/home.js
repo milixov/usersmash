@@ -6,6 +6,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import Layout from "../components/layout";
 
+import { observer, inject } from "mobx-react";
+
 const styles = theme => ({
   root: {
     display: "flex"
@@ -30,12 +32,23 @@ const styles = theme => ({
   }
 });
 
+@inject("store")
+@observer
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.store = this.props.store.authStore;
+  }
+
   render() {
     const { classes, pageContext } = this.props;
 
     return (
-      <Layout classes={classes} pageContext={pageContext}>
+      <Layout
+        classes={classes}
+        pageContext={pageContext}
+        auth={this.store.getAuth}
+      >
         <div className={styles.root}>
           <Typography variant="h4" gutterBottom>
             Material-UI

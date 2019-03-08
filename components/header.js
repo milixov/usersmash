@@ -10,26 +10,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
-import { observer, inject } from "mobx-react";
-
-@inject("store")
-@observer
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.props.store.authStore;
   }
 
   render() {
-    const { getAuth } = this.props;
-
+    const { auth } = this.props;
     return (
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <FormattedMessage id="app.appTitle" />
           </Typography>
-          {getAuth ? (
+          {auth && auth.length > 0 ? (
             <div>
               <IconButton color="inherit">
                 <AccountCircle />
