@@ -1,4 +1,4 @@
-This project was bootstrapped with [Next.js](http://nextjs.org).
+This project was bootstrapped with [Next.js](http://nextjs.org) and [Material-UI](https://material-ui.com/)
 
 ## Available Scripts
 
