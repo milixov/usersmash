@@ -21,11 +21,10 @@ class Header extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     const { getAuth } = this.props;
 
     return (
-      <AppBar position="fixed" className={classes}>
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <FormattedMessage id="app.appTitle" />

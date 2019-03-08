@@ -21,7 +21,6 @@ class Layout extends React.Component {
       <div>
         <CssBaseline />
         <Header
-          classes={classes.appBar}
           pageContext={pageContext}
           drawerOpen={this.handleDrawerOpen}
           drawerClose={this.handleDrawerClose}
