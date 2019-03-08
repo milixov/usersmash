@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
@@ -212,12 +213,7 @@ class Home extends React.Component {
                   ) : (
                     <TableBody>
                       {data.map((item, index) => (
-                        <TableRow
-                          key={"row_" + index}
-                          hover
-                          style={{ cursor: "pointer" }}
-                          onClick={() => router.push("/profile?id=" + item.id)}
-                        >
+                        <TableRow key={"row_" + index} hover>
                           <TableCell component="th" scope="row">
                             {index + 1}
                           </TableCell>
@@ -238,17 +234,19 @@ class Home extends React.Component {
                                 <DeleteIcon />
                               </IconButton>
                             </Tooltip>
-                            {/* <Tooltip
+                            <Tooltip
                               title={"مشاهده پروفایل"}
                               aria-label="profile"
                             >
                               <IconButton
                                 color="inherit"
-                                onClick={() => this.handleClickOpenDialog(item)}
+                                onClick={() =>
+                                  router.push("/profile?id=" + item.id)
+                                }
                               >
-                                <DeleteIcon />
+                                <RemoveRedEyeIcon />
                               </IconButton>
-                            </Tooltip> */}
+                            </Tooltip>
                           </TableCell>
                         </TableRow>
                       ))}
