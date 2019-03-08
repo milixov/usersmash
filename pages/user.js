@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import SaveIcon from "@material-ui/icons/Save";
 import TextField from "@material-ui/core/TextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Layout from "../components/layout";
 
@@ -69,8 +70,10 @@ class User extends React.Component {
       localStorage.setItem("data", JSON.stringify(data));
       enqueueSnackbar("ثبت با موفقیت انجام شد", { variant: "success" });
       router.push("/home");
+      this.setState({ loading: false });
     } catch (e) {
       enqueueSnackbar("عملیات با خطا مواجه شد", { variant: "warn" });
+      this.setState({ loading: false });
     }
   };
 
@@ -91,7 +94,7 @@ class User extends React.Component {
 
   render() {
     const { classes, pageContext, router } = this.props;
-    const { valid, firstName, lastName } = this.state;
+    const { firstName, lastName } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>

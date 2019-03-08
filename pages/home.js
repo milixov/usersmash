@@ -26,8 +26,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import { withRouter } from "next/router";
 
-import Link from "next/link";
-
 import Layout from "../components/layout";
 import axios from "axios";
 
@@ -218,7 +216,7 @@ class Home extends React.Component {
                           key={"row_" + index}
                           hover
                           style={{ cursor: "pointer" }}
-                          onClick={() => console.log(item.id)}
+                          onClick={() => router.push("/profile?id=" + item.id)}
                         >
                           <TableCell component="th" scope="row">
                             {index + 1}
