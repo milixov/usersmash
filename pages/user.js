@@ -47,11 +47,32 @@ class User extends React.Component {
     this.state = {
       auth: false,
       loading: false,
-      valid: false,
       firstName: "",
       lastName: ""
     };
   }
+
+  handleSave = () => {
+    const { enqueueSnackbar, router } = this.props;
+    const { firstName, lastName } = this.state;
+    try {
+      this.setState({ loading: true });
+      var data = JSON.parse(localStorage.getItem("data"));
+      var arr = data["data"];
+      arr.push({
+        id: "id_" + firstName + Math.random(),
+        first_name: firstName,
+        last_name: lastName,
+        avatar: "https://picsum.photos/100/100/?random"
+      });
+      data["data"] = arr;
+      localStorage.setItem("data", JSON.stringify(data));
+      enqueueSnackbar("ثبت با موفقیت انجام شد", { variant: "success" });
+      router.push("/home");
+    } catch (e) {
+      enqueueSnackbar("عملیات با خطا مواجه شد", { variant: "warn" });
+    }
+  };
 
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -69,8 +90,8 @@ class User extends React.Component {
   };
 
   render() {
-    const { classes, pageContext } = this.props;
-    const { valid } = this.state;
+    const { classes, pageContext, router } = this.props;
+    const { valid, firstName, lastName } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>
@@ -86,7 +107,15 @@ class User extends React.Component {
                 کاربر جدید
               </Typography>
               <Button
-                disabled={!valid}
+                style={{ marginLeft: 24 }}
+                onClick={() => router.push("/home")}
+                color="primary"
+              >
+                انصراف
+              </Button>
+              <Button
+                onClick={() => this.handleSave()}
+                disabled={!(firstName.length > 1 && lastName.length > 1)}
                 size="large"
                 variant="contained"
                 color="primary"
@@ -97,6 +126,7 @@ class User extends React.Component {
             </Grid>
             <Grid
               container
+              item
               direction="column"
               xs={12}
               sm={8}
@@ -107,8 +137,9 @@ class User extends React.Component {
               <TextField
                 id="name"
                 label="نام"
+                placeholder="حداقل دو حرف"
                 type="text"
-                value={this.state.email}
+                value={this.state.firstName}
                 onChange={this.handleChange("firstName")}
                 margin="normal"
                 variant="outlined"
@@ -117,8 +148,9 @@ class User extends React.Component {
                 id="name"
                 label="نام خانوادگی"
                 type="text"
-                value={this.state.email}
-                onChange={this.handleChange("firstName")}
+                placeholder="حداقل دو حرف"
+                value={this.state.lastName}
+                onChange={this.handleChange("lastName")}
                 margin="normal"
                 variant="outlined"
               />
