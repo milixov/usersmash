@@ -14,5 +14,6 @@
   "msg.serverError": "خطا در برقراری اتصال",
   "msg.unknownError": "خطای نامشخص",
   "tlp.profile": "نمایه",
-  "tlp.signOut": "خروج"
+  "tlp.signOut": "خروج",
+  "tlp.delete": "حذف"
 }

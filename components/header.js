@@ -45,7 +45,7 @@ class Header extends React.Component {
                 <IconButton
                   color="inherit"
                   onClick={() => {
-                    localStorage.setItem("token", "");
+                    localStorage.clear();
                     router.push("/");
                   }}
                 >

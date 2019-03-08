@@ -73,14 +73,10 @@ class Login extends React.Component {
           });
         }
       })
-      .finally(f => {
+      .finally(() => {
         this.setState({ loading: false });
       });
   }
-
-  componentDidMount = () => {
-    // this.store.reset();
-  };
 
   render() {
     const { intl } = this.props;
