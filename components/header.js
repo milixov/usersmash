@@ -7,7 +7,7 @@ import { Typography } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import AccountCircle from "@material-ui/icons/AccountCircle";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -30,14 +30,14 @@ class Header extends React.Component {
           </Typography>
           {!basic && token && token.length > 0 ? (
             <div>
-              <Tooltip
+              {/* <Tooltip
                 title={intl.formatMessage({ id: "tlp.profile" })}
                 aria-label="profile"
               >
                 <IconButton color="inherit">
                   <AccountCircle />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip
                 title={intl.formatMessage({ id: "tlp.signOut" })}
                 aria-label="signOut"

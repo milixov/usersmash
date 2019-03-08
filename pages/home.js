@@ -1,17 +1,13 @@
 import React from "react";
 
 import Button from "@material-ui/core/Button";
-import withIntl from "../scripts/withIntl";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,12 +21,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
+import withIntl from "../scripts/withIntl";
+import { withStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
-import Layout from "../components/layout";
-
 import { withRouter } from "next/router";
+
+import Link from "next/link";
+
+import Layout from "../components/layout";
 import axios from "axios";
-import { throws } from "assert";
 
 const styles = theme => ({
   root: {
@@ -114,7 +113,6 @@ class Home extends React.Component {
   };
 
   dataGatherListener = data => {
-    console.log("milix", data);
     this.setState({
       perPage: data["per_page"],
       total: data["total"],
@@ -167,14 +165,14 @@ class Home extends React.Component {
   // };
 
   render() {
-    const { classes, pageContext, intl } = this.props;
+    const { classes, pageContext, intl, router } = this.props;
     const { data, selectedItem } = this.state;
 
     return (
       <Layout classes={classes} pageContext={pageContext}>
         {this.state.auth ? (
           <div className={styles.root}>
-            <Grid direction="column">
+            <Grid container direction="column">
               <Grid
                 container
                 direction="row"
@@ -184,7 +182,12 @@ class Home extends React.Component {
                 <Typography variant="h5" style={{ flexGrow: 1 }}>
                   کاربران
                 </Typography>
-                <Button size="large" variant="contained" color="primary">
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => router.push("/user")}
+                >
                   کاربر جدید
                 </Button>
               </Grid>
@@ -212,7 +215,7 @@ class Home extends React.Component {
                     <TableBody>
                       {data.map((item, index) => (
                         <TableRow
-                          key={"row_" + item.id}
+                          key={"row_" + index}
                           hover
                           style={{ cursor: "pointer" }}
                           onClick={() => console.log(item.id)}
@@ -287,13 +290,11 @@ class Home extends React.Component {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                  <Typography>
-                    {selectedItem
-                      ? `کاربر ${selectedItem.first_name} ${
-                          selectedItem.last_name
-                        } با تایید این عملیات حذف خواهد شد`
-                      : null}
-                  </Typography>
+                  {selectedItem
+                    ? `کاربر ${selectedItem.first_name} ${
+                        selectedItem.last_name
+                      } با تایید این عملیات حذف خواهد شد`
+                    : null}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
@@ -311,7 +312,7 @@ class Home extends React.Component {
                   {this.state.deleteLoading ? (
                     <CircularProgress size={24} />
                   ) : (
-                    <Typography>تایید میکنم</Typography>
+                    `تایید میکنم`
                   )}
                 </Button>
               </DialogActions>

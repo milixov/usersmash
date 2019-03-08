@@ -1,24 +1,23 @@
-import withIntl from "../scripts/withIntl";
 import React from "react";
+
 import TextField from "@material-ui/core/TextField";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
-
-import { FormattedMessage } from "react-intl";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
-
-import { Typography } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Typography } from "@material-ui/core";
 
+import { FormattedMessage } from "react-intl";
+
+import withIntl from "../scripts/withIntl";
 import { withSnackbar } from "notistack";
+import { withRouter } from "next/router";
 
 import { observer, inject } from "mobx-react";
 import axios from "axios";
-
-import { withRouter } from "next/router";
 
 @inject("store")
 @observer
