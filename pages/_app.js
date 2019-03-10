@@ -12,6 +12,7 @@ import { getSnapshot } from "mobx-state-tree";
 import { initializeStore } from "../store";
 import { SnackbarProvider } from "notistack";
 import { SheetsRegistry } from "jss";
+
 import {
   createMuiTheme,
   createGenerateClassName
@@ -63,6 +64,9 @@ class MyApp extends App {
 
     const theme = createMuiTheme({
       direction: mDir,
+      typography: {
+        fontFamily: "'Shabnam'"
+      },
       palette: {
         primary: {
           light: teal[400],
@@ -74,9 +78,6 @@ class MyApp extends App {
           main: amber[500],
           dark: amber[700]
         }
-      },
-      typography: {
-        useNextVariants: true
       }
     });
 

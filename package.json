@@ -40,6 +40,7 @@
     "react-jss": "^8.6.1",
     "react-loading": "^2.0.3",
     "react-spinkit": "^3.0.0",
+    "shabnam-font": "^4.0.0",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {

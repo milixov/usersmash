@@ -14,6 +14,11 @@ import Layout from "../components/layout";
 import { withRouter } from "next/router";
 
 const styles = theme => ({
+  "@global": {
+    body: {
+      fontFamily: "Shabnam"
+    }
+  },
   root: {
     display: "flex"
   },

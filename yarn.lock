@@ -3932,6 +3932,11 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+shabnam-font@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shabnam-font/-/shabnam-font-4.0.0.tgz#071175d69e3b03193ab61b77b232c8a8036c81e0"
+  integrity sha512-mCCW07nZsezTeFY1Nvsez1Nekp0z+QRrE58iKW08O4juHutUo5kI0fDS5/dBHkuLkgc9Ui/64LUGBXVKvaGQzg==
+
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"

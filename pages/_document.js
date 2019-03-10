@@ -26,6 +26,11 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
           <link
+            href="https://cdn.rawgit.com/rastikerdar/shabnam-font/v4.0.0/dist/font-face.css"
+            rel="stylesheet"
+            type="text/css"
+          />
+          <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
